@@ -1,20 +1,15 @@
 <template>
   <div>
-    <!-- <Header :isLogin="isLogin" :username="username" @goLogin="goLogin" v-if="showNavAndFooter" /> -->
     <router-view />
-    <!-- <Footer v-if="showNavAndFooter" /> -->
   </div>
 </template>
 
 <script>
-// import Header from './public/AppHeader.vue';
-// import Footer from './public/AppFooter.vue';
 import { useRoute } from 'vue-router';
 import { computed, onMounted } from 'vue';
 export default {
   components: {
-    // Header,
-    // Footer
+
   },
   data() {
     return {
