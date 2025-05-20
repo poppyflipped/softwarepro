@@ -7,7 +7,7 @@
     <section class="hero-section h-[600px] relative flex items-center ">
       <div class="container mx-auto px-6">
         <div class="max-w-2xl text-gray-800">
-          <h2 class="text-5xl font-bold mb-6">传承千年文化，<br />探索非遗之美</h2>
+          <h2 class="text-5xl font-bold mb-6 font-xingkai">传承千年文化，<br />探索非遗之美</h2>
           <p class="text-lg mb-8 leading-relaxed">
             通过数字化学习平台，体验传统文化的魅力。从书法、戏曲到工艺技艺，让每个人都能轻松学习和传承非物质文化遗产。
           </p>
@@ -63,7 +63,6 @@
         </div>
       </div>
     </section>
-
     <!-- 沉浸式文化体验 -->
     <section class="py-16 bg-white">
       <div class="container mx-auto px-6">
@@ -124,6 +123,7 @@ export default {
           price: '免费',
           learners: '12,345'
         },
+
         {
           img: 'https://ai-public.mastergo.com/ai/img_res/eb43bc9afe6bc0798aec17e931de004f.jpg',
           tag: '进阶',
@@ -225,6 +225,9 @@ export default {
   background-image: url('https://ai-public.mastergo.com/ai/img_res/f94038737d06208db9cda281ddcc1d0d.jpg');
   background-size: cover;
   background-position: center;
+}
+.font-xingkai {
+  font-family: "STXingkai", "行楷", cursive;
 }
 
 /* 悬停时的效果 */
