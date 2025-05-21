@@ -1,7 +1,5 @@
 <template>
   <div>
-    
-  <div class="h-[4px]" id="kong"></div>
   <main class="mt-16 container mx-auto px-4 md:px-6">
     <!-- 顶部导航 -->
     <div class="py-8">
@@ -181,8 +179,5 @@ const courses = ref([
 .course-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-#kong{
-  margin-top: 60px;
 }
 </style>

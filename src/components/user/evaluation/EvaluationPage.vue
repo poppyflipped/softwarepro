@@ -1,8 +1,6 @@
 <template>
   <div>
-
-  <div class="h-[4px]" id="kong"></div>
-  <main class="max-w-[1440px] mx-auto px-8 pt-24">
+  <main class="max-w-[1440px] mx-auto px-8 pt-8">
     <!-- 测评分类 -->
     <section class="mb-12">
       <h2 class="text-2xl font-bold mb-8">测评分类</h2>
@@ -172,7 +170,5 @@ export default {
     transform: translateY(-5px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  #kong{
-    margin-top: 20px;
-  }
+
 </style>
