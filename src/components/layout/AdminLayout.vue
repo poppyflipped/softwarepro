@@ -19,19 +19,27 @@
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/admin/permission" 
-                        class="flex items-center px-6 py-3 hover:bg-gray-700 transition"
-                        :class="isActiveExact('/admin/permission')">
-                        <i class="fas fa-shield-alt mr-3"></i> <!-- 权限管理：盾牌图标 -->
-                        <span>权限管理</span>
-                    </router-link>
-                </li>
-                <li>
                     <router-link to="/admin/static" 
                         class="flex items-center px-6 py-3 hover:bg-gray-700 transition"
                         :class="isActiveExact('/admin/static')">
                         <i class="fas fa-book-open mr-3"></i> <!-- 知识管理：打开的书籍图标 -->
                         <span>知识管理</span>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/admin/learn" 
+                        class="flex items-center px-6 py-3 hover:bg-gray-700 transition"
+                        :class="isActiveExact('/admin/learn')">
+                        <i class="fas fa-shield-alt mr-3"></i> <!-- 权限管理：盾牌图标 -->
+                        <span>学习模块管理</span>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/admin/log" 
+                        class="flex items-center px-6 py-3 hover:bg-gray-700 transition"
+                        :class="isActiveExact('/admin/log')">
+                        <i class="fas fa-shield-alt mr-3"></i> <!-- 权限管理：盾牌图标 -->
+                        <span>日志</span>
                     </router-link>
                 </li>
             </ul>

@@ -143,7 +143,7 @@
 // import axios from 'axios';
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import request from '@/utils/request' 
+import request from '@/utils/userRequest' 
 // 响应式数据
 const loginMethod = ref('phone');
 const phone = ref('');

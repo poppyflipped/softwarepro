@@ -4,21 +4,13 @@
       <div class="mb-4 flex justify-between items-center">
         <h3 class="text-xl font-bold">管理员列表</h3>
         <div class="flex gap-2">
-          <el-input 
-            v-model="searchQuery" 
-            placeholder="搜索管理员" 
+          <el-button 
+            type="primary" 
             size="small" 
-            @keyup.enter="fetchAdmins"
-            style="width: 200px;"
+            @click="disableDialog"
           >
-            <template #suffix>
-              <el-button 
-                icon="el-icon-search" 
-                size="small" 
-                @click="fetchAdmins"
-              ></el-button>
-            </template>
-          </el-input>
+            <i class="el-icon-plus"></i> 禁用管理员
+          </el-button>
           <el-button 
             type="primary" 
             size="small" 
@@ -55,7 +47,7 @@
             </el-button>
             <el-button 
               type="danger" 
-              size="small"
+              size="small" 
               @click="handleDeleteAdmin(scope.row)"
             >
               <i class="el-icon-delete"></i> 删除
@@ -81,22 +73,26 @@
       </div>
 
       <!-- 创建管理员对话框 -->
-      <AdminForm
-        v-if="createDialogVisible"
+      <CreateAdminForm
+        v-model="createDialogVisible"
         :formData="createFormData"
-        :isCreate="true"
-        @close="createDialogVisible = false"
         @success="fetchAdmins"
       />
 
-      <!-- 编辑管理员对话框 -->
-      <AdminForm
-        v-if="editDialogVisible"
-        :formData="editFormData"
-        :isCreate="false"
-        @close="editDialogVisible = false"
+      <DisableAdminForm
+        v-model="disableDialogVisible"
+        :formData="disableFormData"
         @success="fetchAdmins"
+        />
+
+      <!-- 编辑管理员对话框 -->
+      <EditAdminForm
+        v-model="editDialogVisible"
+        :formData="editFormData"
+        @success="fetchAdmins"
+        @close="editDialogVisible = false"
       />
+
 
       <!-- 删除确认对话框 -->
       <el-dialog
@@ -127,8 +123,9 @@
 import { ref, onMounted } from 'vue';
 import request from '@/utils/request';
 import { ElMessage } from 'element-plus';
-import AdminForm from './form/adminForm'; // 确保路径正确
-
+import CreateAdminForm from './form/CreateAdminForm.vue';
+import EditAdminForm from './form/EditAdminForm.vue';
+import DisableAdminForm from './form/DisableAdminForm.vue'
 // 数据状态
 const adminList = ref([]);
 const total = ref(0);
@@ -137,15 +134,17 @@ const limit = ref(20);
 const searchQuery = ref('');
 const sortField = ref('');
 const sortOrder = ref('');
+const disableDialogVisible=ref(false);
 const createDialogVisible = ref(false);
 const editDialogVisible = ref(false);
 const createFormData = ref({
   username: '',
   name: '',
   phone: '',
+  password:'',
   sex: '男',
   role_id: 2,
-  status: 'active',
+  status:'',
   id_number: '',
   organization_id: null
 });
@@ -164,7 +163,16 @@ const roleOptions = ref([
 
 // 生命周期钩子
 onMounted(() => {
-  fetchAdmins();
+    const token = localStorage.getItem('admin_token');
+    console.log('mounted 时 admin_token:', token);
+    if (token) {
+      fetchAdmins();
+
+    } else {
+      setTimeout(() => {
+          fetchAdmins();
+      }, 300);
+    }
 });
 
 // 行点击事件
@@ -191,8 +199,13 @@ const fetchAdmins = async () => {
     adminList.value = data;
     total.value = Number(headers['x-total-count']) || data.length;
   } catch (error) {
-    console.error('获取管理员列表失败:', error);
-    ElMessage.error('获取管理员列表失败，请重试');
+    if(error.response.status===403){
+      ElMessage.error("您没有使用这项功能的权限");
+    }else{
+      console.error('获取管理员列表失败:', error);
+      ElMessage.error('获取管理员列表失败，请重试');
+    }
+    
   }
 };
 
@@ -203,7 +216,8 @@ const formatRole = (row) => {
 
 // 格式化状态显示
 const formatStatus = (row) => {
-  return row.status === 'active' ? '启用' : '禁用';
+  console.log(row.status);
+  return row.status === 'ENABLED' ? '启用' : '禁用';
 };
 
 // 分页相关事件处理
@@ -229,6 +243,10 @@ const handleSortChange = ({ prop, order }) => {
 const openCreateDialog = () => {
   createDialogVisible.value = true;
 };
+
+const disableDialog=()=>{
+    disableDialogVisible.value = true;
+}
 
 // 打开编辑管理员对话框
 const handleEditAdmin = (row) => {
@@ -262,6 +280,7 @@ const handleDeleteClose = () => {
 <style scoped>
 .main-adminUser {
   margin-left: 256px; /* 适配侧边栏宽度 */
+  margin-top: 20px;
 }
 
 .admin-list-container {

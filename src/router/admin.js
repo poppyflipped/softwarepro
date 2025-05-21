@@ -10,13 +10,19 @@ export const adminRoutes = [
         meta: { layout: 'admin',showNavFooter: false, ifshow: true  }
     },
     {
-        path: 'permission',
-        component: () => import('@/components/admin/adminPermission/AdminPermission.vue'),
+        path: 'learn',
+        component: () => import('@/components/admin/adminLearnModule/AdminLearnModule.vue'),
         meta: { layout: 'admin', showNavFooter: false, ifshow: true  }
     },
     {
         path: 'static',
         component: () => import('@/components/admin/adminStatic/adminStatic.vue'),
+        meta: { layout: 'admin', showNavFooter: false, ifshow: true  }
+    }
+    ,
+    {
+        path: 'log',
+        component: () => import('@/components/admin/adminLog/adminLog.vue'),
         meta: { layout: 'admin', showNavFooter: false, ifshow: true  }
     }
 ];

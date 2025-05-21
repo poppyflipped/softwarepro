@@ -122,7 +122,7 @@
 import { ref, computed, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 // import axios from 'axios'; 
-import request from '@/utils/request' 
+import request from '@/utils/userRequest' 
 
 // 表单数据
 const form = ref({
