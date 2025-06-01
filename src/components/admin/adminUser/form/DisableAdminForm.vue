@@ -37,7 +37,6 @@ const emit = defineEmits(['update:modelValue', 'success', 'close'])
 const visible = ref(false)
 const role_id=null;
 const roleOptions = ref([
-    { label: '超级管理员', value: 1 },
     { label: '普通管理员', value: 2 },
     { label: '内容审核员', value: 3 },
 ]);

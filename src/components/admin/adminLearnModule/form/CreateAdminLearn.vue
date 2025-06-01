@@ -9,8 +9,28 @@
                 <el-input type="textarea" v-model="moduleForm.description" :rows="4" placeholder="请输入模块描述"></el-input>
             </el-form-item>
 
-            <el-form-item label="封面图片URL" prop="cover_image_url">
-                <el-input v-model="moduleForm.cover_image_url" placeholder="请输入封面图片URL"></el-input>
+            <el-form-item label="封面图片" prop="cover_image_url">
+                <div class="upload-container">
+                    <el-upload
+                        class="upload-demo"
+                        :auto-upload="false"
+                        :show-file-list="false"
+                        :on-change="handleFileChange"
+                        accept="image/*"
+                    >
+                        <div v-if="moduleForm.cover_image_url" class="image-preview">
+                            <el-image
+                                :src="moduleForm.cover_image_url"
+                                fit="cover"
+                                class="preview-image"
+                            />
+                            <div class="image-actions">
+                                <el-button type="primary" size="small">更换图片</el-button>
+                            </div>
+                        </div>
+                        <el-button v-else type="primary">上传封面图片</el-button>
+                    </el-upload>
+                </div>
             </el-form-item>
 
             <el-form-item label="难度等级" prop="level">
@@ -51,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, reactive,defineEmits } from 'vue';
+import { ref, reactive, defineEmits } from 'vue';
 import { ElMessage } from 'element-plus';
 import request from '@/utils/request';
 
@@ -81,6 +101,61 @@ const rules = reactive({
         { required: true, message: '请选择难度等级', trigger: 'change' }
     ]
 });
+
+// 处理文件选择
+const handleFileChange = async (file) => {
+    if (!file) return;
+    
+    if (!beforeUpload(file.raw)) {
+        return;
+    }
+
+    try {
+        // 创建 FormData 对象
+        const formData = new FormData();
+        formData.append('file', file.raw);
+
+        // 上传图片到服务器，使用正确的接口和参数
+        const response = await request.post('/api/admin/upload/cover?folder=module_cover', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        // 使用返回的 url
+        moduleForm.cover_image_url = response.data.url;
+        ElMessage.success('图片上传成功');
+    } catch (error) {
+        if (error.response?.status === 403) {
+        ElMessage.error('权限不足，请联系管理员');
+        }
+        else if (error.response?.status === 422) {
+            ElMessage.error('上传参数验证失败');
+        } else {
+            ElMessage.error('图片上传失败，请重试');
+        }
+        console.error('Image upload error:', error);
+    }
+};
+
+// 上传前验证
+const beforeUpload = (file) => {
+    const isImage = file.type.startsWith('image/');
+    if (!isImage) {
+        ElMessage.error('请上传图片文件');
+        return false;
+    }
+
+    // 限制文件大小（5MB）
+    const maxSize = 5;
+    if (file.size / 1024 / 1024 > maxSize) {
+        ElMessage.error(`文件大小不能超过${maxSize}MB`);
+        return false;
+    }
+
+    return true;
+};
+
 const handleClose = () => {
     emit('update:modelValue', false)
     emit('close')
@@ -125,3 +200,51 @@ const submitForm = async () => {
     });
 };
 </script>
+
+<style scoped>
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-preview {
+    position: relative;
+    width: 200px;
+    height: 150px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.image-preview:hover .image-actions {
+    opacity: 1;
+}
+
+:deep(.el-upload) {
+    width: 200px;
+}
+
+:deep(.el-upload-dragger) {
+    width: 200px;
+    height: 150px;
+}
+</style>

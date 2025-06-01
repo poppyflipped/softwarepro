@@ -28,7 +28,7 @@
         </el-col>
         <el-col :span="6">
           <el-select
-            v-model="query.reviewStatus"
+            v-model="query.review_status"
             placeholder="审核状态"
             clearable
           >
@@ -52,24 +52,25 @@
       @row-click="handleRowClick"
     >
       <el-table-column type="index" label="序号" width="50"></el-table-column>
-      <el-table-column prop="title" label="模块名称" min-width="200"></el-table-column>
-      <el-table-column prop="description" label="描述" min-width="300"></el-table-column>
-      <el-table-column prop="level" label="难度等级" width="120">
+      <el-table-column prop="title" label="模块名称" min-width="100"></el-table-column>
+      <el-table-column prop="description" label="描述" min-width="150"></el-table-column>
+      <el-table-column prop="level" label="难度等级" width="60">
         <template #default="scope">
           <span>{{ getLevelText(scope.row.level) }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="reviewStatus" label="审核状态" width="120">
         <template #default="scope">
-          <el-tag :type="getStatusType(scope.row.reviewStatus)"
+          <el-tag :type="getStatusType(scope.row.review_status)"
             :closable="false">
-              {{ getReviewStatusText(scope.row.reviewStatus) }}
+              {{ getReviewStatusText(scope.row.review_status) }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" mini-width="200">
         <template #default="scope">
           <el-button size="small" @click="handleEditModule(scope.row)">编辑</el-button>
+          <el-button size="small" type="primary" @click="handleManageKnowledge(scope.row)">知识点</el-button>
           <el-button
             size="small"
             type="danger"
@@ -93,6 +94,67 @@
       :formData="currentEditModule"
       @success="handleUpdateModule"
     />
+
+    <!-- 知识点管理对话框 -->
+    <el-dialog
+      v-model="knowledgeDialogVisible"
+      title="管理知识点"
+      width="800px"
+    >
+      <div class="knowledge-management">
+        <div class="knowledge-selection">
+          <h3>可选知识点</h3>
+          <el-input
+            v-model="knowledgeSearch"
+            placeholder="搜索知识点"
+            @input="handleKnowledgeSearch"
+            clearable
+          ></el-input>
+          <el-table
+            :data="availableKnowledge"
+            style="width: 100%; margin-top: 10px;"
+            height="300"
+          >
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column prop="title" label="标题"></el-table-column>
+            <el-table-column prop="category" label="分类"></el-table-column>
+            <el-table-column fixed="right" label="操作" width="120">
+              <template #default="scope">
+                <el-button
+                  type="primary"
+                  size="small"
+                  @click="handleAddKnowledge([scope.row.id])"
+                >添加</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+<!-- 
+        <div class="current-knowledge" style="margin-top: 20px;">
+          <h3>已添加知识点</h3>
+          <el-table
+            :data="currentKnowledge"
+            style="width: 100%"
+            height="300"
+          >
+            <el-table-column prop="title" label="标题"></el-table-column>
+            <el-table-column prop="category" label="分类"></el-table-column>
+            <el-table-column fixed="right" label="操作" width="120">
+              <template #default="scope">
+                <el-button
+                  type="danger"
+                  size="small"
+                  @click="handleRemoveKnowledge([scope.row.id])"
+                >移除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div> -->
+      </div>
+      <template #footer>
+        <el-button @click="knowledgeDialogVisible = false">关闭</el-button>
+      </template>
+    </el-dialog>
 
     <!-- 分页组件 -->
     <el-pagination
@@ -156,6 +218,13 @@ const createFormData = ref({
   organization_id: 0
 });
 
+// 知识点管理相关
+const knowledgeDialogVisible = ref(false);
+const knowledgeSearch = ref('');
+const availableKnowledge = ref([]);
+// const currentKnowledge = ref([]);
+const currentModuleId = ref(null);
+
 // 生命周期钩子
 onMounted(() => {
   fetchModules();
@@ -179,6 +248,9 @@ const fetchModules = async () => {
     });
     modules.total = response.data.total;
     modules.items = response.data.items;
+    modules.items.forEach(item => {
+      console.log('模块的审核状态:', item.review_status); 
+    });
     console.log('模块列表数据:', modules.items);
   } catch (error) {
     if(error.response.status===403){
@@ -299,6 +371,62 @@ const tableRowClassName = () => '';
 const handleRowClick = (row) => {
   console.log('点击行:', row);
 };
+
+// 打开知识点管理对话框
+const handleManageKnowledge = async (row) => {
+  currentModuleId.value = row.id;
+  knowledgeDialogVisible.value = true;
+  await fetchAvailableKnowledge();
+};
+
+// 获取可用知识点列表
+const fetchAvailableKnowledge = async () => {
+  try {
+    const response = await request.get('/api/admin/knowledge/');
+    availableKnowledge.value = response.data;
+  } catch (error) {
+    ElMessage.error('获取知识点列表失败');
+  }
+};
+
+
+
+// 添加知识点
+const handleAddKnowledge = async (knowledgeIds) => {
+  try {
+    await request.post(`/api/admin/learning_module/${currentModuleId.value}/add_knowledge`, {
+      knowledge_ids: knowledgeIds
+    });
+    ElMessage.success('添加知识点成功');
+    await fetchAvailableKnowledge();
+  } catch (error) {
+    ElMessage.error('添加知识点失败');
+  }
+};
+
+// // 移除知识点
+// const handleRemoveKnowledge = async (knowledgeIds) => {
+//   try {
+//     await request.post(`/api/admin/learning_module/${currentModuleId.value}/remove_knowledge`, {
+//       knowledge_ids: knowledgeIds
+//     });
+//     ElMessage.success('移除知识点成功');
+//     await fetchAvailableKnowledge();
+//   } catch (error) {
+//     ElMessage.error('移除知识点失败');
+//   }
+// };
+
+// 搜索知识点
+const handleKnowledgeSearch = () => {
+  if (knowledgeSearch.value) {
+    availableKnowledge.value = availableKnowledge.value.filter(item =>
+      item.title.toLowerCase().includes(knowledgeSearch.value.toLowerCase())
+    );
+  } else {
+    fetchAvailableKnowledge();
+  }
+};
 </script>
 
 <style scoped>
@@ -338,5 +466,20 @@ const handleRowClick = (row) => {
 
 .el-tag {
   margin-right: 5px;
+}
+
+.knowledge-management {
+  padding: 20px;
+}
+
+.knowledge-selection {
+  margin-bottom: 20px;
+}
+
+.knowledge-selection h3,
+.current-knowledge h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
 }
 </style>

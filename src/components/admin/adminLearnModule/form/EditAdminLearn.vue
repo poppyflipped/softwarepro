@@ -5,8 +5,6 @@
         width="600px"
         @close="handleDialogClose"
     >
-
-
         <el-form 
             :model="formState" 
             :rules="formRules" 
@@ -33,11 +31,23 @@
             </el-form-item>
 
             <!-- 封面图片URL -->
-            <el-form-item label="封面图片URL" prop="cover_image_url">
-            <el-input 
-                v-model="formState.cover_image_url" 
-                placeholder="请输入图片URL"
-            />
+            <el-form-item label="封面图片" prop="cover_image_url">
+                <div class="upload-container">
+                    <el-upload
+                        class="image-uploader"
+                        :show-file-list="false"
+                        :before-upload="beforeImageUpload"
+                        :http-request="customUpload"
+                    >
+                        <img
+                            v-if="formState.cover_image_url"
+                            :src="formState.cover_image_url"
+                            class="preview-image"
+                        />
+                        <el-icon v-else class="upload-icon"><Plus /></el-icon>
+                    </el-upload>
+                    <div class="upload-tip">点击上传封面图片</div>
+                </div>
             </el-form-item>
 
             <!-- 推荐状态 -->
@@ -109,6 +119,8 @@
 import { ref, reactive, watch,defineEmits ,defineProps } from 'vue';
 import { ElMessage, ElForm } from 'element-plus';
 import { computed } from 'vue';
+import { Plus } from '@element-plus/icons-vue';
+import request from '@/utils/request';
 
 // 接收父组件传递的 props
 const props = defineProps(['modelValue', 'formData']);
@@ -167,4 +179,86 @@ const handleSubmit = async () => {
         }
     });
 };
+
+// 图片上传前的验证
+const beforeImageUpload = (file) => {
+    const isImage = file.type.startsWith('image/');
+    const isLt2M = file.size / 1024 / 1024 < 2;
+
+    if (!isImage) {
+        ElMessage.error('只能上传图片文件!');
+        return false;
+    }
+    if (!isLt2M) {
+        ElMessage.error('图片大小不能超过 2MB!');
+        return false;
+    }
+    return true;
+};
+
+// 自定义上传方法
+const customUpload = async (options) => {
+    try {
+        const formData = new FormData();
+        formData.append('file', options.file);
+        
+        const response = await request.post('/api/admin/upload/cover?folder=module_cover', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        if (response.data && response.data.url) {
+            formState.cover_image_url = response.data.url;
+            ElMessage.success('图片上传成功');
+        }
+    } catch (error) {
+        console.error('上传失败:', error);
+        ElMessage.error('图片上传失败');
+    }
+};
 </script>
+
+<style scoped>
+.upload-container {
+    text-align: center;
+}
+
+.image-uploader {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 178px;
+    height: 178px;
+    display: inline-block;
+}
+
+.image-uploader:hover {
+    border-color: #409EFF;
+}
+
+.upload-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-image {
+    width: 178px;
+    height: 178px;
+    object-fit: cover;
+}
+
+.upload-tip {
+    font-size: 12px;
+    color: #606266;
+    margin-top: 7px;
+}
+</style>

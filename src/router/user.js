@@ -43,7 +43,7 @@ export const userRoutes = [{
         component: () => import('@/components/user/login/LoginPage.vue'),
         meta: {
             layout: 'user',
-            showNavFooter: false
+            showNavFooter: true
         }
     },
     {
