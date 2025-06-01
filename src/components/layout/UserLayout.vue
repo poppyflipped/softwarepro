@@ -5,15 +5,17 @@
     <nav v-if="showNavAndFooter" class="relative bg-white shadow-md z-50">
       <div class="container mx-auto px-6 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-4">
-          <span class="text-2xl font-['Pacifico'] text-primary">logo</span>
+          <!-- <span class="text-2xl font-['Pacifico'] text-primary">logo</span> -->
+          <img src="@/assets/logo.png" alt="logo" class="h-10 w-auto" />
           <h1 class="text-xl font-medium">非遗文化传承</h1>
         </div>
         <div class="flex items-center space-x-8">
           <router-link to="/home" class="hover:text-primary">首页</router-link>
-          <router-link to="/courses" class="hover:text-primary">课程中心</router-link>
-          <router-link to="/tasks" class="hover:text-primary">任务广场</router-link>
-          <router-link to="/museum" class="hover:text-primary">文化展馆</router-link>
+          <router-link to="/courses" class="hover:text-primary">知识中心</router-link>
+          <!-- <router-link to="/tasks" class="hover:text-primary">任务广场</router-link>
+          <router-link to="/museum" class="hover:text-primary">文化展馆</router-link> -->
           <router-link to="/evaluation" class="hover:text-primary">在线测评</router-link>
+          <router-link to="/info" class="hover:text-primary">个人中心</router-link>
         </div>
         <div class="flex items-center space-x-6">
           <div class="relative">

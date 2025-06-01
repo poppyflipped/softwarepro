@@ -1,6 +1,5 @@
 <template>
   <div>
-  <div class="h-[4px]" id="kong"></div>
   <main class="pt-20">
     <!-- Hero Section -->
 
@@ -234,9 +233,6 @@ export default {
 button:hover {
   background-color: #e53e3e; /* 背景颜色（悬停时红色） */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 增加阴影 */
-}
-#kong{
-  margin-top:24px;
 }
 
 /* 标题、子标题和按钮向右上方调整 */

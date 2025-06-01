@@ -94,9 +94,48 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+// import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import request from '@/utils/userRequest'  // 你之前封装好的请求方法
+const courses = ref([])
+// 获取课程数据方法
+const getCourses = async () => {
+  try {
+    const response = await request.get('/api/user/knowledge/list', {
+      params: {
+        skip: 0,
+        limit: 8
+        // category: 'POETRY' // 如果要筛选分类，这里加上
+        // is_recommended: true // 如果要筛选推荐课程，加上
+      }
+    })
 
-const courses = ref([
+    if (response.status === 200) {
+      // 假设接口返回数组 KnowledgeItemOut[]
+      const knowledgeList = response.data
+
+      // 处理数据映射成课程所需格式
+      courses.value = knowledgeList.map(item => ({
+        id: item.id,
+        title: item.title,
+        image: item.cover_image, // 假如返回里是 cover_image 字段
+        teacher: item.teacher || '未知老师',
+        learners: item.learners || Math.floor(Math.random() * 1000),
+        price: item.price || 0
+      }))
+    } else {
+      console.error('获取课程失败')
+    }
+  } catch (error) {
+    console.error('请求出错', error)
+  }
+}
+
+// 页面加载时获取课程
+onMounted(() => {
+  getCourses()
+})
+/* const courses = ref([
   {
     id: 1,
     title: '书法基础入门课程',
@@ -161,7 +200,7 @@ const courses = ref([
     learners: 321,
     price: 259
   }
-])
+]) */
 </script>
 
 <style scoped>
