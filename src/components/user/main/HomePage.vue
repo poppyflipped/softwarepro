@@ -1,16 +1,17 @@
 <template>
   <div>
+  <div class="h-[4px]" id="kong"></div>
   <main class="pt-20">
     <!-- Hero Section -->
 
-    <section class="hero-section h-[600px] relative flex items-center ">
+    <section class="hero-section h-[600px] relative flex items-center">
       <div class="container mx-auto px-6">
-        <div class="max-w-2xl text-gray-800">
-          <h2 class="text-5xl font-bold mb-6 font-xingkai">传承千年文化，<br />探索非遗之美</h2>
-          <p class="text-lg mb-8 leading-relaxed">
+        <div class="max-w-2xl text-gray-800 hero-content">
+          <h2 class="text-5xl font-bold mb-6 font-xingkai hero-title">传承千年文化，<br />探索非遗之美</h2>
+          <p class="text-lg mb-8 leading-relaxed hero-subtitle">
             通过数字化学习平台，体验传统文化的魅力。从书法、戏曲到工艺技艺，让每个人都能轻松学习和传承非物质文化遗产。
           </p>
-          <button class="!rounded-button bg-primary text-white px-8 py-3 text-lg hover:bg-red-700 transition-colors whitespace-nowrap">开始学习</button>
+          <button class="!rounded-button bg-primary text-white px-8 py-3 text-lg hover:bg-red-700 transition-colors whitespace-nowrap hero-button">开始学习</button>
         </div>
       </div>
     </section>
@@ -234,5 +235,24 @@ button:hover {
   background-color: #e53e3e; /* 背景颜色（悬停时红色） */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 增加阴影 */
 }
+#kong{
+  margin-top:24px;
+}
 
+/* 标题、子标题和按钮向右上方调整 */
+.hero-content {
+  position: relative;
+  top: -30px;
+  right: -60px;
+}
+
+/* 如果需要单独微调每个元素，可以取消下面的注释 */
+/* .hero-title {
+  margin-bottom: 10px;
+}
+
+.hero-subtitle {
+  margin-bottom: 15px;
+} */
 </style>
+    
