@@ -29,7 +29,7 @@ service.interceptors.response.use(
   async error => {
     const { response } = error;
     
-    // // ✅ 处理403权限错误
+    //处理403权限错误
     if (response?.status === 403) {
       ElMessage.error('权限不足，您没有访问该页面的权限');
       // 可选：跳转到权限提示页或首页
