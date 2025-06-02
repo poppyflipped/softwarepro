@@ -82,9 +82,9 @@
 
       <!-- 新增按钮区域 -->
       <div class="pt-4 border-t flex justify-end space-x-2">
-        <button @click="markComplete" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+<!--         <button @click="markComplete" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
           📌 标记已完成
-        </button>
+        </button> -->
         <button @click="showDialog = false"
           class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition">
           关闭
@@ -151,7 +151,7 @@ const openDetail = async (id) => {
 }
 
 // 标记已完成
-const markComplete = async () => {
+/* const markComplete = async () => {
   try {
     console.log("moduleId",moduleMap[detail.value.category])
     console.log("knowledgeId",detail.value.id)
@@ -167,6 +167,7 @@ const markComplete = async () => {
     alert('❌ 标记失败，请重试')
   }
 }
+ */
 
 // 搜索过滤
 const filteredKnowledge = computed(() => {
