@@ -288,8 +288,10 @@ const fetchLogs = async () => {
       details: item.details || {}
     }));
   } catch (error) {
-    ElMessage.error('加载日志失败');
-    console.error('获取日志数据失败:', error);
+    if(error.response.status!==403){
+      ElMessage.error('加载日志失败');
+      console.error('获取日志数据失败:', error);
+    }
   }
 };
 

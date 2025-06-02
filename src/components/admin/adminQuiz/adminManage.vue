@@ -254,8 +254,10 @@ const loadQuizzes = async () => {
         quizzes.value = data;
         total.value = Number(headers['x-total-count']) || data.length;
     } catch (error) {
-        ElMessage.error('加载题目列表失败：' + error.message);
-        console.error('请求失败:', error);
+        if(error.response.status!==403){
+            ElMessage.error('加载题目列表失败：' + error.message);
+            console.error('请求失败:', error);
+        }
     } finally {
         loading.value = false;
     }

@@ -199,9 +199,10 @@ const fetchAdmins = async () => {
     adminList.value = data;
     total.value = Number(headers['x-total-count']) || data.length;
   } catch (error) {
-    if(error.response.status===403){
-      ElMessage.error("您没有使用这项功能的权限");
-    }else{
+    // if(error.response.status===403){
+    //   ElMessage.error("您没有使用这项功能的权限");
+    // }else{
+      if(error.response.status!==403){
       console.error('获取管理员列表失败:', error);
       ElMessage.error('获取管理员列表失败，请重试');
     }

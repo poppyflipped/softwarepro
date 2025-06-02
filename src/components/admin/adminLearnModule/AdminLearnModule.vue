@@ -253,9 +253,7 @@ const fetchModules = async () => {
     });
     console.log('模块列表数据:', modules.items);
   } catch (error) {
-    if(error.response.status===403){
-      ElMessage.error("您没有使用这项功能的权限");
-    }else{
+    if(error.response.status!==403){
        ElMessage.error('加载模块列表失败');
       console.error(error);
     }

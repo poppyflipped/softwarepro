@@ -289,9 +289,7 @@ export default {
                 // 获取标签
                 fetchTags();
             } catch (error) {
-                if(error.response.status===403){
-                    ElMessage.error("您没有使用这项功能的权限");
-                }else{
+                if(error.response.status!==403){
                     ElMessage.error('获取知识列表失败');
                 }
             }

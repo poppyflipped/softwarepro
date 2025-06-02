@@ -316,7 +316,6 @@ setup() {
     adjustPointsForm,
     handleUserChange,
     handleTabClick,
-    //   searchHistories: loadSearchHistories,
     deleteSearchHistory,
     deleteBrowseHistory,
     deleteFavorite,

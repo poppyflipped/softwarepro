@@ -145,8 +145,10 @@ const loadReports = async () => {
         reports.value = data;
         total.value = Number(headers['x-total-count']) || data.length;
     } catch (error) {
-        ElMessage.error('加载报告列表失败：' + error.message);
-        console.error('请求失败:', error);
+        if(error.response.status!==403){
+            ElMessage.error('加载报告列表失败：' + error.message);
+            console.error('请求失败:', error);
+        }
     } finally {
         loading.value = false;
     }
@@ -159,6 +161,7 @@ const getReportDetail = async (id) => {
         currentReport.value = data;
         detailVisible.value = true;
     } catch (error) {
+        
         ElMessage.error('获取报告详情失败：' + error.message);
         console.error('获取详情失败:', error);
     }
