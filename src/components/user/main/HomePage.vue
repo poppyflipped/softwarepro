@@ -1,25 +1,27 @@
 <template>
   <div>
     <main class="pt-20 min-h-screen bg-gray-50">
-      <!-- Hero 区 -->
-      <section class="hero-section h-[400px] relative flex items-center justify-center text-center px-6">
-        <div class="max-w-3xl text-gray-800 hero-content">
-          <h1 class="text-5xl font-bold mb-6 font-xingkai hero-title">
-            传承千年文化，探索非遗之美
-          </h1>
-          <p class="text-lg mb-8 leading-relaxed hero-subtitle">
-            通过数字化学习平台，体验传统文化魅力，从书法、戏曲到工艺技艺，轻松传承非物质文化遗产。
-          </p>
-          <button
-            @click="$router.push('/knowledge')"
-            class="!rounded-button bg-primary text-white px-10 py-3 text-lg hover:bg-red-700 transition-colors whitespace-nowrap"
-          >
-            立即开始学习
-          </button>
+      <!-- Hero 区（修改了高度、布局和位置） -->
+      <section class="hero-section h-[600px] relative flex items-center">
+        <div class="container mx-auto px-6">
+          <div class="max-w-2xl text-gray-800 hero-content">
+            <h1 class="text-5xl font-bold mb-6 font-xingkai hero-title">
+              传承千年文化，探索非遗之美
+            </h1>
+            <p class="text-lg mb-8 leading-relaxed hero-subtitle">
+              通过数字化学习平台，体验传统文化魅力，从书法、戏曲到工艺技艺，轻松传承非物质文化遗产。
+            </p>
+            <button
+              @click="$router.push('/knowledge')"
+              class="!rounded-button bg-primary text-white px-10 py-3 text-lg hover:bg-red-700 transition-colors whitespace-nowrap"
+            >
+              立即开始学习
+            </button>
+          </div>
         </div>
       </section>
 
-      <!-- 三大模块入口 -->
+      <!-- 三大模块入口（位置保持不变） -->
       <section class="py-20 container mx-auto px-6">
         <h2 class="text-4xl font-bold text-center mb-16">首页模块</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -103,7 +105,6 @@ button:hover {
   top: -30px;
   right: -60px;
 }
-/* 新增：模块图片大小控制 */
 .module-icon {
   width: 64px;
   height: 64px;
