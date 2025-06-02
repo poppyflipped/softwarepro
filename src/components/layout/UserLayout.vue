@@ -16,12 +16,7 @@
           <router-link to="/info" class="hover:text-primary">个人中心</router-link>
         </div>
         <div class="flex items-center space-x-6">
-          <div class="relative">
-            <input type="text" placeholder="搜索课程、文化内容"
-              class="pl-12 pr-4 py-2 w-64 border border-gray-200 rounded-button text-sm" style="padding-left: 2.3rem;">
-            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-          </div>
-          <i class="far fa-bell text-gray-600 text-xl"></i>
+
 
           <div v-if="isLogin" class="flex items-center space-x-2">
             <span class="text-gray-700 text-base">{{ username }}</span>
@@ -58,9 +53,9 @@
           <div class="footer-section">
             <h4 class="footer-heading">学习资源</h4>
             <ul class="footer-links">
-              <li><router-link to="/courses">课程中心</router-link></li>
-              <li><router-link to="/tasks">任务广场</router-link></li>
-              <li><router-link to="/museum">文化展馆</router-link></li>
+              <li><router-link to="/knowledge">知识中心</router-link></li>
+              <li><router-link to="/evaluation">在线测评</router-link></li>
+              <!-- <li><router-link to="/museum">文化展馆</router-link></li> -->
             </ul>
           </div>
 
