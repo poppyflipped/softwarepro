@@ -55,7 +55,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import request from '@/utils/request'
+import request from '@/utils/userRequest'
 import { ElMessage } from 'element-plus'
 
 const records = ref([])

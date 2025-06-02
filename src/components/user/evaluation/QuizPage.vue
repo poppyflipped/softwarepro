@@ -42,7 +42,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import request from '@/utils/request'
+import request from '@/utils/userRequest'
 
 // 测评题目
 const quizItems = ref([])

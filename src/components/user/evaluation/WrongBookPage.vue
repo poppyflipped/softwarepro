@@ -43,7 +43,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import request from '@/utils/request'
+import request from '@/utils/userRequest'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const mistakes = ref([])
