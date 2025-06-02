@@ -33,17 +33,12 @@
 
       <!-- 分页控件 -->
       <div class="flex justify-center mt-10 space-x-2">
-        <button
-          v-for="page in totalPages"
-          :key="page"
-          @click="currentPage = page"
-          :class="[
-            'px-4 py-2 rounded-full text-sm transition-all',
-            currentPage === page
-              ? 'bg-primary text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-primary hover:text-white'
-          ]"
-        >
+        <button v-for="page in totalPages" :key="page" @click="currentPage = page" :class="[
+          'px-4 py-2 rounded-full text-sm transition-all',
+          currentPage === page
+            ? 'bg-primary text-white'
+            : 'bg-gray-100 text-gray-700 hover:bg-primary hover:text-white'
+        ]">
           {{ page }}
         </button>
       </div>
@@ -52,13 +47,17 @@
 
   <!-- 弹窗 -->
   <div v-if="showDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-xl max-w-3xl w-full h-[80vh] p-6 relative overflow-hidden shadow-lg animate-fade-in">
+    <div
+      class="bg-white rounded-xl max-w-3xl w-full h-[80vh] p-6 relative overflow-hidden shadow-lg animate-fade-in flex flex-col">
       <button @click="showDialog = false"
         class="absolute top-4 right-4 text-gray-500 hover:text-black text-3xl leading-none">&times;</button>
-      <div class="overflow-y-auto pr-3 h-full custom-scrollbar">
+
+      <!-- 内容区域，滚动 -->
+      <div class="overflow-y-auto pr-3 flex-1 custom-scrollbar">
         <h2 class="text-2xl font-bold mb-4">{{ detail.title }}</h2>
         <img :src="detail.cover_image_url" alt="" class="w-full h-64 object-cover rounded mb-4">
         <p class="text-gray-600 mb-2">作者：{{ detail.author }} ｜ 来源：{{ detail.source }}</p>
+        <p class="text-gray-500 text-sm mb-2">模块类别：{{ moduleMap[detail.category] || '未知' }}</p>
         <p class="text-gray-500 text-sm mb-4">发布时间：{{ formatDate(detail.publish_time) }}</p>
         <div class="mb-4">
           <span v-for="tag in detail.tags" :key="tag"
@@ -79,6 +78,17 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- 新增按钮区域 -->
+      <div class="pt-4 border-t flex justify-end space-x-2">
+<!--         <button @click="markComplete" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+          📌 标记已完成
+        </button> -->
+        <button @click="showDialog = false"
+          class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition">
+          关闭
+        </button>
       </div>
     </div>
   </div>
@@ -108,11 +118,20 @@ const detail = ref({
   media: []
 })
 
+// 模块id到名字映射
+const moduleMap = {
+  POETRY: 1,
+  FESTIVAL: 2,
+  CRAFT: 3,
+  CUSTOM: 4,
+}
+
+
 // 获取所有知识项
 const fetchKnowledge = async () => {
   try {
     const res = await request.get('/api/user/knowledge/list')
-    console.log("知识中心",res.data)
+    console.log("知识列表",res.data)
     knowledgeItems.value = res.data
   } catch (error) {
     console.error('获取知识列表失败', error)
@@ -123,12 +142,32 @@ const fetchKnowledge = async () => {
 const openDetail = async (id) => {
   try {
     const res = await request.get(`/api/user/knowledge/${id}`)
+    console.log("知识详情",res.data)
     detail.value = res.data
     showDialog.value = true
   } catch (error) {
     console.error('获取知识详情失败', error)
   }
 }
+
+// 标记已完成
+/* const markComplete = async () => {
+  try {
+    console.log("moduleId",moduleMap[detail.value.category])
+    console.log("knowledgeId",detail.value.id)
+    await request.post('/api/user/learning_modules/complete', {
+      module_id: moduleMap[detail.value.category],
+      knowledge_id: detail.value.id
+    })
+    alert('🎉 已标记为完成！')
+    showDialog.value = false
+    fetchKnowledge()
+  } catch (error) {
+    console.error('标记失败', error)
+    alert('❌ 标记失败，请重试')
+  }
+}
+ */
 
 // 搜索过滤
 const filteredKnowledge = computed(() => {
@@ -176,6 +215,7 @@ onMounted(() => {
     opacity: 0;
     transform: translateY(-20px) scale(0.95);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -190,10 +230,12 @@ onMounted(() => {
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 3px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
