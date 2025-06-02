@@ -7,29 +7,28 @@ export const userRoutes = [{
         }
     },
     {
-        path: '/courses',
-        component: () => import('@/components/user/course/CoursesPage.vue'),
+        path: '/knowledge',
+        component: () => import('@/components/user/knowledge/KnowledgePage.vue'),
         meta: {
             layout: 'user',
             showNavFooter: true
-        }
+        },
+        children: [{
+                path: '',
+                redirect: '/knowledge/1' // 👉 这里就是自动跳转到 /knowledge/1
+            },
+            {
+                path: ':moduleId',
+                component: () => import('@/components/user/knowledge/KnowledgeList.vue'),
+                meta: {
+                    layout: 'user',
+                    showNavFooter: true
+                }
+            }
+        ]
     },
-    {
-        path: '/tasks',
-        component: () => import('@/components/user/task/TasksPage.vue'),
-        meta: {
-            layout: 'user',
-            showNavFooter: true
-        }
-    },
-    {
-        path: '/museum',
-        component: () => import('@/components/user/museum/MuseumPage.vue'),
-        meta: {
-            layout: 'user',
-            showNavFooter: true
-        }
-    },
+
+
     {
         path: '/evaluation',
         component: () => import('@/components/user/evaluation/EvaluationPage.vue'),
@@ -43,7 +42,7 @@ export const userRoutes = [{
         component: () => import('@/components/user/login/LoginPage.vue'),
         meta: {
             layout: 'user',
-            showNavFooter: true
+            showNavFooter: false
         }
     },
     {

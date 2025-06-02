@@ -86,84 +86,31 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "OnlineAssessment",
+<script setup>
+import { ref, onMounted } from 'vue'
+import request from '@/utils/userRequest'
 
-  data() {
-    return {
-      assessments: [
-        {
-          title: "基础知识测评",
-          description: "考察传统文化基础知识掌握程度",
-          time: "30分钟",
-          questions: 50,
-          iconClass: "fas fa-book"
-        },
-        {
-          title: "技能水平测评",
-          description: "评估书法绘画等传统技艺水平",
-          time: "45分钟",
-          questions: 30,
-          iconClass: "fas fa-paint-brush"
-        },
-        {
-          title: "综合能力测评",
-          description: "全方位评估文化素养与理解能力",
-          time: "60分钟",
-          questions: 80,
-          iconClass: "fas fa-brain"
-        },
-        {
-          title: "等级认证测评",
-          description: "专业资格等级认证考核评估",
-          time: "90分钟",
-          questions: 100,
-          iconClass: "fas fa-trophy"
-        }
-      ],
-      personalData: [
-        { value: 126, label: "已完成测评" },
-        { value: "85%", label: "平均正确率" },
-        { value: 1280, label: "累计测评时长(分钟)" },
-        { value: 15, label: "获得勋章" }
-      ],
-      recommendations: [
-        {
-          title: "书法基础入门测评",
-          level: "初级",
-          participants: "12,345",
-          image: "https://ai-public.mastergo.com/ai/img_res/9e223c1df4925ca9d95c2d6893ae15b2.jpg"
-        },
-        {
-          title: "茶艺文化鉴赏测评",
-          level: "中级",
-          participants: "8,756",
-          image: "https://ai-public.mastergo.com/ai/img_res/26b9f6c4fedf164f3a20536b99027ef2.jpg"
-        },
-        {
-          title: "国画技法提升测评",
-          level: "高级",
-          participants: "6,234",
-          image: "https://ai-public.mastergo.com/ai/img_res/773076af409a74d1776d387c9d233e47.jpg"
-        },
-        {
-          title: "古典音律理论测评",
-          level: "专业",
-          participants: "4,567",
-          image: "https://ai-public.mastergo.com/ai/img_res/0f31c65b9b82c9dba1372bd73ceec328.jpg"
-        }
-      ],
-      historyRecords: [
-        { name: "书法基础入门测评", time: "2023-12-20 14:30", score: 92, accuracy: 92 },
-        { name: "茶艺文化鉴赏测评", time: "2023-12-18 10:15", score: 88, accuracy: 88 },
-        { name: "国画技法提升测评", time: "2023-12-15 16:45", score: 95, accuracy: 95 },
-        { name: "古典音律理论测评", time: "2023-12-12 09:30", score: 85, accuracy: 85 }
-      ]
-    };
+
+// 测评题目数据
+const quizItems = ref([])
+
+// 获取测评题目的方法
+const fetchQuizQuestions = async () => {
+  try {
+    const res = await request.get('/api/user/quiz/1')
+    console.log("测评题目", res.data)
+    quizItems.value = res.data
+  } catch (error) {
+    console.error('获取测评题目失败', error)
   }
-};
+}
+
+// 页面加载时调用
+onMounted(() => {
+  fetchQuizQuestions()
+})
 </script>
+
 
 <style scoped>
   .assessment-card:hover {

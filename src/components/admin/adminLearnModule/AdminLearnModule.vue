@@ -129,27 +129,7 @@
             </el-table-column>
           </el-table>
         </div>
-<!-- 
-        <div class="current-knowledge" style="margin-top: 20px;">
-          <h3>已添加知识点</h3>
-          <el-table
-            :data="currentKnowledge"
-            style="width: 100%"
-            height="300"
-          >
-            <el-table-column prop="title" label="标题"></el-table-column>
-            <el-table-column prop="category" label="分类"></el-table-column>
-            <el-table-column fixed="right" label="操作" width="120">
-              <template #default="scope">
-                <el-button
-                  type="danger"
-                  size="small"
-                  @click="handleRemoveKnowledge([scope.row.id])"
-                >移除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div> -->
+
       </div>
       <template #footer>
         <el-button @click="knowledgeDialogVisible = false">关闭</el-button>

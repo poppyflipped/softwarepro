@@ -11,9 +11,7 @@
         </div>
         <div class="flex items-center space-x-8">
           <router-link to="/home" class="hover:text-primary">首页</router-link>
-          <router-link to="/courses" class="hover:text-primary">知识中心</router-link>
-          <!-- <router-link to="/tasks" class="hover:text-primary">任务广场</router-link>
-          <router-link to="/museum" class="hover:text-primary">文化展馆</router-link> -->
+          <router-link to="/knowledge" class="hover:text-primary">知识中心</router-link>
           <router-link to="/evaluation" class="hover:text-primary">在线测评</router-link>
           <router-link to="/info" class="hover:text-primary">个人中心</router-link>
         </div>
