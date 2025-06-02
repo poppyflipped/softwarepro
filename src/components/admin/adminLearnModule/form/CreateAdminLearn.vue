@@ -111,18 +111,16 @@ const handleFileChange = async (file) => {
     }
 
     try {
-        // 创建 FormData 对象
+
         const formData = new FormData();
         formData.append('file', file.raw);
 
-        // 上传图片到服务器，使用正确的接口和参数
         const response = await request.post('/api/admin/upload/cover?folder=module_cover', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         });
 
-        // 使用返回的 url
         moduleForm.cover_image_url = response.data.url;
         ElMessage.success('图片上传成功');
     } catch (error) {
@@ -178,8 +176,6 @@ const submitForm = async () => {
             dialogVisible.value = false;
 
             console.log(response);
-            // 刷新模块列表（调用之前定义的 fetchModules 函数）
-            // fetchModules();
             emit('success');
             handleClose()
 

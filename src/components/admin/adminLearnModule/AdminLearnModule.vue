@@ -233,7 +233,7 @@ onMounted(() => {
 // 获取状态文本
 const getReviewStatusText = (status) => reviewStatusMap[status] || '未知';
 
-// 获取状态类型（用于标签颜色）
+// 获取状态类型（标签颜色）
 const getStatusType = (status) => statusTypeMap[status] || 'primary';
 
 // 加载模块列表

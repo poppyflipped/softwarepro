@@ -178,7 +178,6 @@ onMounted(() => {
 // 行点击事件
 const handleRowClick = (row) => {
   console.log('行点击事件:', row);
-  // 其他业务逻辑
 };
 
 // 获取管理员列表

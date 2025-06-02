@@ -140,7 +140,7 @@ const formState = reactive({
     author: '',
     review_status: 'PENDING',
     organization_id: null,
-    ...props.formData, // ✅ 初始化时合并父组件数据
+    ...props.formData, 
 });
 
 
@@ -155,7 +155,7 @@ const formRef = ref();
 
 watch(() => props.formData, (newData) => {
   if (newData) {
-    Object.assign(formState, newData); // ✅ 数据变化时更新表单
+    Object.assign(formState, newData); 
   }
 }, { deep: true });
 
