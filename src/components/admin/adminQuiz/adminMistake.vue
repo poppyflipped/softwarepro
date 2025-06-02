@@ -114,8 +114,10 @@ const loadMistakes = async () => {
         mistakes.value = data;
         total.value = Number(headers['x-total-count']) || data.length;
     } catch (error) {
-        ElMessage.error('加载错题列表失败');
-        console.error('请求失败:', error);
+        if(error.response.status!==403){
+            ElMessage.error('加载错题列表失败');
+            console.error('请求失败:', error);
+        }
     } finally {
         loading.value = false;
     }

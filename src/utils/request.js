@@ -30,21 +30,21 @@ service.interceptors.response.use(
     const { response } = error;
     
     // // ✅ 处理403权限错误
-    // if (response?.status === 403) {
-    //   ElMessage.error('权限不足，您没有访问该页面的权限');
-    //   // 可选：跳转到权限提示页或首页
-    //   return Promise.reject(error); // 终止请求处理链
-    // }
+    if (response?.status === 403) {
+      ElMessage.error('权限不足，您没有访问该页面的权限');
+      // 可选：跳转到权限提示页或首页
+      // return Promise.reject(error); // 终止请求处理链
+    }
 
     // 处理401未认证错误（保持不变）
-    if (response?.status === 401) {
+    else if (response?.status === 401) {
       localStorage.removeItem('admin_token');
       await router.push('/admin/login');
       return Promise.reject(error);
     }
 
     // 其他错误处理（如500、404等）
-    if (response) {
+    else if (response) {
       ElMessage.error(`请求失败：${response.status} ${response.statusText}`);
     } else {
       ElMessage.error('网络连接失败，请检查服务器或网络');

@@ -127,7 +127,6 @@ const submit = async () => {
         console.log("响应内容:", response.data); // 打印响应数据
     } catch (error) {
         console.log("完整错误对象:", error); // 包含 response、status、message 等属性
-        // 上报日志（可选）
         await reportError(error);
     }
 };

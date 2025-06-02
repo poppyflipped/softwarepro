@@ -65,12 +65,11 @@ const rememberMe = ref(false);
 const isPasswordVisible = ref(false);
 const isLoading = ref(false);
 
-// 加载时恢复记住的密码（实际项目建议加密存储）
+// 加载时恢复记住的密码
 onMounted(() => {
     if (localStorage.getItem('rememberAdmin')) {
         username.value = localStorage.getItem('username') || '';
         rememberMe.value = true;
-        // 密码建议通过安全方式存储，此处仅为示例
         password.value = localStorage.getItem('password') || '';
     }
 });
@@ -93,7 +92,7 @@ const handleLogin = async () => {
             ElMessage.success('登录成功');
             localStorage.setItem('admin_token', response.data.access_token);
             console.log('存储的 Token:', localStorage.getItem('admin_token')); // 检查是否存在
-            // 存储用户名（密码不建议明文存储）
+            // 存储用户名
             if (rememberMe.value) {
                 localStorage.setItem('username', username.value);
                 localStorage.setItem('rememberAdmin', 'true');

@@ -180,7 +180,6 @@
                         :key="media.id" 
                         class="media-item1"
                       >
-                        <!-- 媒体容器包裹图片/视频 -->
                         <div class="media-container1">
                           <el-image 
                             :src="media.url" 
@@ -206,15 +205,14 @@ import request from '@/utils/request';
 
 export default {
     setup() {
-        const uploadRef = ref(null); // 添加在 setup 顶部
+        const uploadRef = ref(null); 
         const selectedMediaType = ref('IMAGE');
         const uploadLoading = ref(false);
         const uploadProgress = ref(0);
 
-         // 请求头（携带Token）
         const headers = computed(() => {
             const token = localStorage.getItem('admin_token');
-            if (!token) return {}; // 无 token 时不发送认证头
+            if (!token) return {}; 
             return {
                 Authorization: `Bearer ${token}`
             };
@@ -289,15 +287,13 @@ export default {
                 // 获取标签
                 fetchTags();
             } catch (error) {
-                if(error.response.status===403){
-                    ElMessage.error("您没有使用这项功能的权限");
-                }else{
+                if(error.response.status!==403){
                     ElMessage.error('获取知识列表失败');
                 }
             }
         };
 
-        // 生命周期：初始化加载数据
+ 
         onMounted(() => {
             fetchItems();
         });
@@ -329,7 +325,7 @@ export default {
             handleDeleteItem(detailItem.value.id);
             currentView.value = 'list';
         };
-        // 编辑知识条目（直接从本地items读取数据，不调用后端）
+        // 编辑知识条目
         const handleEditItem = async (itemId) => {
             currentView.value = 'form';
             const item = items.value.find(item => item.id === itemId);

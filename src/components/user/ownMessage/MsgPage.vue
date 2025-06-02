@@ -162,7 +162,7 @@
 <script>
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import request from '@/utils/request';
+import request from '@/utils/userRequest';
 import { ElMessage } from 'element-plus';
 
 export default {

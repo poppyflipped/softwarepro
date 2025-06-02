@@ -4,11 +4,9 @@
         <div class="filter-section">
             <el-form :inline="true" :model="filterForm" class="demo-form-inline">
                 <el-form-item label="模块">
-                    <!-- 从 el-input-number 改为 el-input -->
                     <el-input v-model="filterForm.module_id" placeholder="模块 ID" />
                 </el-form-item>
                 <el-form-item label="知识点">
-                    <!-- 从 el-input-number 改为 el-input -->
                     <el-input v-model="filterForm.knowledge_id" placeholder="知识点 ID" />
                 </el-form-item>
                 <el-form-item label="题目类型">
@@ -235,9 +233,7 @@ const rules = reactive({
 // 模态框打开时的回调（确保表单渲染完成）
 const handleModalOpen = () => {
     nextTick(() => {
-        // 可选：在模态框打开时聚焦第一个输入框
-        // const firstInput = quizFormRef.value?.$el.querySelector('el-input');
-        // firstInput?.$refs.input.focus();
+        
     });
 };
 
@@ -254,8 +250,10 @@ const loadQuizzes = async () => {
         quizzes.value = data;
         total.value = Number(headers['x-total-count']) || data.length;
     } catch (error) {
-        ElMessage.error('加载题目列表失败：' + error.message);
-        console.error('请求失败:', error);
+        if(error.response.status!==403){
+            ElMessage.error('加载题目列表失败：' + error.message);
+            console.error('请求失败:', error);
+        }
     } finally {
         loading.value = false;
     }

@@ -213,7 +213,7 @@ onMounted(() => {
 // 获取状态文本
 const getReviewStatusText = (status) => reviewStatusMap[status] || '未知';
 
-// 获取状态类型（用于标签颜色）
+// 获取状态类型（标签颜色）
 const getStatusType = (status) => statusTypeMap[status] || 'primary';
 
 // 加载模块列表
@@ -233,9 +233,7 @@ const fetchModules = async () => {
     });
     console.log('模块列表数据:', modules.items);
   } catch (error) {
-    if(error.response.status===403){
-      ElMessage.error("您没有使用这项功能的权限");
-    }else{
+    if(error.response.status!==403){
        ElMessage.error('加载模块列表失败');
       console.error(error);
     }

@@ -127,8 +127,10 @@ const loadRecords = async () => {
         console.log(data);
         total.value = Number(headers['x-total-count']) || data.length;
     } catch (error) {
-        ElMessage.error('加载答题记录失败：' + error.message);
-        console.error('加载失败:', error);
+        if(error.response.status!==403){
+            ElMessage.error('加载答题记录失败：' + error.message);
+            console.error('加载失败:', error);
+        }
     } finally {
         loading.value = false;
     }
