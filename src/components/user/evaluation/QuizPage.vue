@@ -11,13 +11,8 @@
       <!-- 单选 / 判断题 -->
       <div v-if="item.type === 'SINGLE' || item.type === 'TRUE_FALSE'" class="option-list">
         <label v-for="option in item.options" :key="option.id" class="option-item">
-          <input
-            type="radio"
-            :name="'quiz_' + item.id"
-            :value="option.id"
-            v-model="userAnswers[item.id]"
-            @change="recordDuration(item.id)"
-          />
+          <input type="radio" :name="'quiz_' + item.id" :value="option.id" v-model="userAnswers[item.id]"
+            @change="recordDuration(item.id)" />
           <span>{{ option.content }}</span>
         </label>
       </div>
@@ -25,12 +20,7 @@
       <!-- 多选题 -->
       <div v-else-if="item.type === 'MULTIPLE'" class="option-list">
         <label v-for="option in item.options" :key="option.id" class="option-item">
-          <input
-            type="checkbox"
-            :value="option.id"
-            v-model="userAnswers[item.id]"
-            @change="recordDuration(item.id)"
-          />
+          <input type="checkbox" :value="option.id" v-model="userAnswers[item.id]" @change="recordDuration(item.id)" />
           <span>{{ option.content }}</span>
         </label>
       </div>
@@ -60,8 +50,8 @@ const durations = ref({})
 const fetchQuizQuestions = async () => {
   try {
     const res = await request.post('/api/user/quiz/start', {
-      source_type: 'web',
-      source_id: 123,
+      source_type: 'MODULE',
+      source_id: 1,
       limit: 5
     })
     quizItems.value = res.data
@@ -73,7 +63,7 @@ const fetchQuizQuestions = async () => {
       } else {
         userAnswers.value[item.id] = null
       }
-      startTimes.value[item.id] = Date.now() // 每题开始时间
+      startTimes.value[item.id] = Date.now() // 每题开始时间戳
       durations.value[item.id] = 0
     })
   } catch (error) {
@@ -109,8 +99,8 @@ const submitAnswers = async () => {
 
   try {
     const res = await request.post('/api/user/quiz_record/submit', {
-      source_type: 'web',
-      source_id: 123,
+      source_type: 'MODULE',
+      source_id: 1,
       answers
     })
 
@@ -127,6 +117,8 @@ onMounted(() => {
   fetchQuizQuestions()
 })
 </script>
+
+
 
 <style scoped>
 .quiz-page {
