@@ -18,12 +18,13 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         <div v-for="item in paginatedKnowledge" :key="item.id"
           class="bg-white rounded-xl shadow-sm hover:shadow-lg transition transform hover:-translate-y-1">
-          <img :src="item.cover_image_url" alt="" class="w-full h-48 object-cover rounded-t-xl">
+          <!-- <img :src="item.cover_image_url" alt="" class="w-full h-48 object-cover rounded-t-xl"> -->
+          <img src="https://ai-public.mastergo.com/ai/img_res/f94038737d06208db9cda281ddcc1d0d.jpg" alt="" class="w-full h-48 object-cover rounded-t-xl">
           <div class="p-5">
             <h3 class="font-semibold text-lg mb-2 text-gray-800">{{ item.title }}</h3>
             <div class="flex items-center justify-between text-gray-500 text-sm mb-2">
               <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded">{{ item.category }}</span>
-              <span>已完成：{{ item.completed ? '是' : '否' }}</span>
+              <!-- <span>已完成：{{ item.completed ? '是' : '否' }}</span> -->
             </div>
             <button @click="openDetail(item.id)"
               class="mt-3 w-full py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition">查看详情</button>
