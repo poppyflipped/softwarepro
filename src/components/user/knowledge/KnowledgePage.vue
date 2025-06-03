@@ -56,7 +56,7 @@
       <!-- 内容区域，滚动 -->
       <div class="overflow-y-auto pr-3 flex-1 custom-scrollbar">
         <h2 class="text-2xl font-bold mb-4">{{ detail.title }}</h2>
-        <img :src="detail.cover_image_url" alt="" class="w-full h-64 object-cover rounded mb-4">
+        <!-- <img :src="detail.cover_image_url" alt="" class="w-full h-64 object-cover rounded mb-4"> -->
         <p class="text-gray-600 mb-2">作者：{{ detail.author }} ｜ 来源：{{ detail.source }}</p>
         <p class="text-gray-500 text-sm mb-2">模块类别：{{ moduleMap[detail.category] || '未知' }}</p>
         <p class="text-gray-500 text-sm mb-4">发布时间：{{ formatDate(detail.publish_time) }}</p>
